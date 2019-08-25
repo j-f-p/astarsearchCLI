@@ -1,20 +1,35 @@
 #include <fstream>
 #include <iostream>
+#include <sstream>
 #include <string>
 #include <vector>
 using std::cout;
 using std::ifstream;
+using std::istringstream;
 using std::string;
 using std::vector;
 
-void ReadBoardFile(string path) {
+vector<int> ParseLine(string stringRow) {
+  istringstream streamRow(stringRow);
+  char c;
+  int n;
+  vector<int> intRow;
+  while(streamRow >> n >> c) {
+    intRow.push_back(n);
+  }
+  return intRow;
+}
+
+vector<vector<int>> ReadBoardFile(string path) {
   ifstream boardFile(path);
+  vector<vector<int>> board;
   if(boardFile) {
     string line;
     while (getline(boardFile, line)) {
-      cout << line << "\n";
+      board.push_back(ParseLine(line));
     }
   }
+  return board;
 }
 
 void PrintBoard(vector<vector<int>> b) {
@@ -29,6 +44,6 @@ void PrintBoard(vector<vector<int>> b) {
 }
 
 int main() {
-  ReadBoardFile("1.board");
-//PrintBoard(board);
+  auto board = ReadBoardFile("1.board");
+  PrintBoard(board);
 }
