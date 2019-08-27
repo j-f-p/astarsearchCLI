@@ -10,7 +10,7 @@ using std::istringstream;
 using std::string;
 using std::vector;
 
-enum class State {kEmpty, kObstacle};
+enum class State {kOpen, kObstacle, kClosed};
 
 vector<State> ParseLine(string stringRow) {
   istringstream streamRow(stringRow);
@@ -19,7 +19,7 @@ vector<State> ParseLine(string stringRow) {
   vector<State> stateRow;
   while(streamRow >> n >> c and c==',') {
     if(n==0) {
-      stateRow.push_back(State::kEmpty);
+      stateRow.push_back(State::kOpen);
     }
     else {
       stateRow.push_back(State::kObstacle);
@@ -44,8 +44,24 @@ int Heuristic(int x1, int y1, int x2, int y2) {
   return abs(x2 - x1) + abs(y2 - y1);
 }
 
+void AddToTestNodes(int x, int y, int g, int h, 
+    vector<vector<int>> &testNodes, vector<vector<State>> &grid) {
+  testNodes.push_back(vector<int> {x, y, g, h});
+  grid[x][y] = State::kClosed;
+}
+
 vector<vector<State>> Search(
     vector<vector<State>> grid, vector<int> start, vector<int> goal) {
+
+  vector<vector<int>> testNodes {};
+
+  int x {start[0]};
+  int y {start[1]};
+  int g {0};
+  int h = Heuristic(x, y, goal[0], goal[1]);
+
+  AddToTestNodes(x, y, g, h, testNodes, grid);
+  
   cout << "No path found!\n";
   return vector<vector<State>>{};
 }
@@ -78,4 +94,5 @@ int main() {
     PrintMap(grid);
   
   TestHeuristic();
+  TestAddToTestNodes();
 }
