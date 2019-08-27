@@ -71,6 +71,21 @@ vector<vector<State>> Search(
 
   AddToTestNodes(x, y, g, h, testNodes, grid);
 
+  while(not testNodes.empty()) {
+    sortDescendingF(&testNodes);
+
+    auto removed = testNodes.back();
+    testNodes.pop_back();
+
+    x = removed[0];
+    y = removed[1];
+    grid[x][y] = State::path;
+
+    if(x==goal[0] and y==goal[1])
+      return grid;
+
+  }
+
   cout << "No path found!\n";
   return vector<vector<State>>{};
 }
@@ -106,4 +121,5 @@ int main() {
   TestHeuristic();
   TestAddToTestNodes();
   TestCompare();
+  TestTrivialSearch();
 }

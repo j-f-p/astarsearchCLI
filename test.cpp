@@ -27,11 +27,21 @@ void PrintVectorOfVectors(vector<vector<int>> v) {
   }
 }
 
+string NodeStateAsString(State state) {
+  switch(state) {
+    case State::closed:   return " closed  ";
+    case State::obstacle: return " obstacle";
+    case State::open:     return " open    ";
+    case State::path:     return " path    ";
+    default:              return " error   ";
+  }
+}
+
 void PrintVectorOfVectors(vector<vector<State>> v) {
   for (auto row : v) {
     cout << "{ ";
     for (auto col : row) {
-      cout << NodeString(col) << " ";
+      cout << NodeStateAsString(col) << " ";
     }
     cout << "}" << "\n";
   }
@@ -115,6 +125,27 @@ void TestCompare() {
     << "CompareDescendingF(a, b): "
     << CompareDescendingF(test_3, test_4) << "\n";
     cout << "Correct answer: 1" << "\n";
+    cout << "\n";
+  } else {
+    cout << "passed" << "\n";
+  }
+  cout << "----------------------------------------------------------" << "\n";
+  return;
+}
+
+void TestTrivialSearch() {
+  cout << "----------------------------------------------------------" << "\n";
+  cout << "Test trivial search: ";
+  auto gridState0 = ReadGridFile("stateMatrix.csv");
+  auto gridState1 = Search(gridState0, vector<int> {4, 5}, vector<int> {4, 5});
+  gridState0[4][5] = State::path; // expected state after Search
+  if (gridState1 != gridState0) {
+    cout << "failed" << "\n";
+    cout << "Search(board, {4,5}, {4,5})" << "\n";
+    cout << "Solution board: " << "\n";
+    PrintVectorOfVectors(gridState0);
+    cout << "Your board: " << "\n";
+    PrintVectorOfVectors(gridState1);
     cout << "\n";
   } else {
     cout << "passed" << "\n";
