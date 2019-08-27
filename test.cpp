@@ -154,28 +154,28 @@ void TestTrivialSearch() {
   return;
 }
 
-void TestCheckOpenNode() {
+void TestIsOpenNode() {
   cout << "----------------------------------------------------------" << "\n";
-  cout << "CheckOpenNode Function Test: ";
+  cout << "IsOpenNode Function Test: ";
   vector<vector<State>> grid{{State::closed, State::obstacle, State::open, State::open, State::open, State::open},
                             {State::closed, State::obstacle, State::open, State::open, State::open, State::open},
                             {State::closed, State::obstacle, State::open, State::open, State::open, State::open},
                             {State::closed, State::obstacle, State::open, State::open, State::open, State::open},
                             {State::closed, State::closed, State::open, State::open, State::obstacle, State::open}};
 
-  if (CheckOpenNode(0, 0, grid)) { // node exists but is not open
+  if (IsOpenNode(0, 0, grid)) { // node exists but is not open
     cout << "failed" << "\n";
     cout << "\n" << "Test grid is: " << "\n";
     PrintVectorOfVectors(grid);
     cout << "Cell checked: (0, 0)" << "\n";
     cout << "\n";
-  } else if (!CheckOpenNode(4, 2, grid)) { // node {4, 2} is open
+  } else if (!IsOpenNode(4, 2, grid)) { // node {4, 2} is open
     cout << "failed" << "\n";
     cout << "\n" << "Test grid is: " << "\n";
     PrintVectorOfVectors(grid);
     cout << "Cell checked: (4, 2)" << "\n";
     cout << "\n";
-  } else if (CheckOpenNode(10, 2, grid)) { // node does not exist
+  } else if (IsOpenNode(10, 2, grid)) { // node does not exist
     cout << "failed" << "\n";
     cout << "\n" << "Test grid is: " << "\n";
     PrintVectorOfVectors(grid);
@@ -185,4 +185,48 @@ void TestCheckOpenNode() {
     cout << "passed" << "\n";
   }
   cout << "----------------------------------------------------------" << "\n";
+}
+
+void TestExamineNeighbors() {
+  cout << "----------------------------------------------------------" << "\n";
+  cout << "ExamineNeighbors Function Test: ";
+  vector<int> current{4, 2, 7, 3};
+  vector<int> goal {4, 5};
+  vector<vector<int>> open{{4, 2, 7, 3}};
+  vector<vector<int>> solution_open = open;
+  solution_open.push_back(vector<int>{3, 2, 8, 4});
+  solution_open.push_back(vector<int>{4, 3, 8, 2});
+  vector<vector<State>> grid{{State::closed, State::obstacle, State::open, State::open, State::open, State::open},
+                            {State::closed, State::obstacle, State::open, State::open, State::open, State::open},
+                            {State::closed, State::obstacle, State::open, State::open, State::open, State::open},
+                            {State::closed, State::obstacle, State::open, State::open, State::open, State::open},
+                            {State::closed, State::closed, State::open, State::open, State::obstacle, State::open}};
+  vector<vector<State>> solution_grid = grid;
+  solution_grid[3][2] = State::closed;
+  solution_grid[4][3] = State::closed;
+  ExamineNeighbors(current, goal, open, grid);
+  SortDescendingF(&open);
+  SortDescendingF(&solution_open);
+  if (open != solution_open) {
+    cout << "failed" << "\n";
+    cout << "\n";
+    cout << "Your open list is: " << "\n";
+    PrintVectorOfVectors(open);
+    cout << "Solution open list is: " << "\n";
+    PrintVectorOfVectors(solution_open);
+    cout << "\n";
+  } else if (grid != solution_grid) {
+    cout << "failed" << "\n";
+    cout << "\n";
+    cout << "Your grid is: " << "\n";
+    PrintVectorOfVectors(grid);
+    cout << "\n";
+    cout << "Solution grid is: " << "\n";
+    PrintVectorOfVectors(solution_grid);
+    cout << "\n";
+  } else {
+  	cout << "passed" << "\n";
+  }
+  cout << "----------------------------------------------------------" << "\n";
+  return;
 }

@@ -11,6 +11,8 @@ using std::istringstream;
 using std::string;
 using std::vector;
 
+const int positionDeltas[4][2] {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+
 enum class State {closed, obstacle, open, path};
 
 vector<State> ParseLine(string stringRow) {
@@ -55,31 +57,50 @@ bool CompareDescendingF(const vector<int> node1, const vector<int> node2) {
   return node1[2]+node1[3] > node2[2]+node2[3];
 }
 
-void sortDescendingF(vector<vector<int>> *testNodes) {
+void SortDescendingF(vector<vector<int>> *testNodes) {
   sort(testNodes->begin(), testNodes->end(), CompareDescendingF);
 }
 
-bool CheckOpenNode(int x, int y, vector<vector<State>> &grid) {
+bool IsOpenNode(int x, int y, vector<vector<State>> &grid) {
   if(x > -1 and x < grid.size() and
      y > -1 and y < grid[0].size() and grid[x][y]==State::open)
     return true;
   return false;
 }
 
+void ExamineNeighbors(
+    const vector<int> &removedNode, const vector<int> &goalPt,
+    vector<vector<int>> &open, vector<vector<State>> &grid) {
+  int x = removedNode[0];
+  int y = removedNode[1];
+  int g = removedNode[2];
+  
+  for(int neighbor=0; neighbor<4; neighbor++) {
+    int xN = x + positionDeltas[neighbor][0];
+    int yN = y + positionDeltas[neighbor][1];
+
+    if(IsOpenNode(xN, yN, grid)) {
+      int gN = g + 1;
+      int hN = Heuristic(xN, yN, goalPt[0], goalPt[1]);
+      AddToTestNodes(xN, yN, gN, hN, open, grid);
+    }
+  }
+}
+
 vector<vector<State>> Search(
-    vector<vector<State>> grid, vector<int> start, vector<int> goal) {
+    vector<vector<State>> grid, vector<int> startPt, vector<int> goalPt) {
 
   vector<vector<int>> testNodes {};
 
-  int x {start[0]};
-  int y {start[1]};
+  int x {startPt[0]};
+  int y {startPt[1]};
   int g {0};
-  int h = Heuristic(x, y, goal[0], goal[1]);
+  int h = Heuristic(x, y, goalPt[0], goalPt[1]);
 
   AddToTestNodes(x, y, g, h, testNodes, grid);
 
   while(not testNodes.empty()) {
-    sortDescendingF(&testNodes);
+    SortDescendingF(&testNodes);
 
     auto removed = testNodes.back();
     testNodes.pop_back();
@@ -88,9 +109,10 @@ vector<vector<State>> Search(
     y = removed[1];
     grid[x][y] = State::path;
 
-    if(x==goal[0] and y==goal[1])
+    if(x==goalPt[0] and y==goalPt[1])
       return grid;
 
+    ExamineNeighbors(removed, goalPt, testNodes, grid);
   }
 
   cout << "No path found!\n";
@@ -129,5 +151,6 @@ int main() {
   TestAddToTestNodes();
   TestCompare();
   TestTrivialSearch();
-  TestCheckOpenNode();
+  TestIsOpenNode();
+  TestExamineNeighbors();
 }
