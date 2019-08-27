@@ -153,3 +153,36 @@ void TestTrivialSearch() {
   cout << "----------------------------------------------------------" << "\n";
   return;
 }
+
+void TestCheckOpenNode() {
+  cout << "----------------------------------------------------------" << "\n";
+  cout << "CheckOpenNode Function Test: ";
+  vector<vector<State>> grid{{State::closed, State::obstacle, State::open, State::open, State::open, State::open},
+                            {State::closed, State::obstacle, State::open, State::open, State::open, State::open},
+                            {State::closed, State::obstacle, State::open, State::open, State::open, State::open},
+                            {State::closed, State::obstacle, State::open, State::open, State::open, State::open},
+                            {State::closed, State::closed, State::open, State::open, State::obstacle, State::open}};
+
+  if (CheckOpenNode(0, 0, grid)) { // node exists but is not open
+    cout << "failed" << "\n";
+    cout << "\n" << "Test grid is: " << "\n";
+    PrintVectorOfVectors(grid);
+    cout << "Cell checked: (0, 0)" << "\n";
+    cout << "\n";
+  } else if (!CheckOpenNode(4, 2, grid)) { // node {4, 2} is open
+    cout << "failed" << "\n";
+    cout << "\n" << "Test grid is: " << "\n";
+    PrintVectorOfVectors(grid);
+    cout << "Cell checked: (4, 2)" << "\n";
+    cout << "\n";
+  } else if (CheckOpenNode(10, 2, grid)) { // node does not exist
+    cout << "failed" << "\n";
+    cout << "\n" << "Test grid is: " << "\n";
+    PrintVectorOfVectors(grid);
+    cout << "Cell checked: (10, 2)" << "\n";
+    cout << "\n";
+  } else {
+    cout << "passed" << "\n";
+  }
+  cout << "----------------------------------------------------------" << "\n";
+}

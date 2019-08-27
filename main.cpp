@@ -59,6 +59,13 @@ void sortDescendingF(vector<vector<int>> *testNodes) {
   sort(testNodes->begin(), testNodes->end(), CompareDescendingF);
 }
 
+bool CheckOpenNode(int x, int y, vector<vector<State>> &grid) {
+  if(x > -1 and x < grid.size() and
+     y > -1 and y < grid[0].size() and grid[x][y]==State::open)
+    return true;
+  return false;
+}
+
 vector<vector<State>> Search(
     vector<vector<State>> grid, vector<int> start, vector<int> goal) {
 
@@ -122,4 +129,5 @@ int main() {
   TestAddToTestNodes();
   TestCompare();
   TestTrivialSearch();
+  TestCheckOpenNode();
 }
