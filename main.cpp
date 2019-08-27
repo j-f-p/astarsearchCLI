@@ -27,16 +27,22 @@ vector<State> ParseLine(string stringRow) {
   return stateRow;
 }
 
-vector<vector<State>> ReadBoardFile(string path) {
-  ifstream boardFile(path);
-  vector<vector<State>> board;
-  if(boardFile) {
+vector<vector<State>> ReadGridFile(string path) {
+  ifstream gridFile(path);
+  vector<vector<State>> grid;
+  if(gridFile) {
     string line;
-    while (getline(boardFile, line)) {
-      board.push_back(ParseLine(line));
+    while (getline(gridFile, line)) {
+      grid.push_back(ParseLine(line));
     }
   }
-  return board;
+  return grid;
+}
+
+vector<vector<State>> Search(
+    vector<vector<State>> grid, vector<int> start, vector<int> goal) {
+  cout << "No path found!\n";
+  return vector<vector<State>>{};
 }
 
 string CellString(State state) {
@@ -46,9 +52,9 @@ string CellString(State state) {
   }
 }
 
-void PrintBoard(vector<vector<State>> board) {
-  cout << "\nBoard" << "\n\n";
-  for(vector<State> row: board) {
+void PrintMap(vector<vector<State>> grid) {
+  cout << "\nGrid" << "\n\n";
+  for(vector<State> row: grid) {
     cout << "\t";
     for(State tile: row)
       cout << CellString(tile);
@@ -58,6 +64,9 @@ void PrintBoard(vector<vector<State>> board) {
 }
 
 int main() {
-  auto board = ReadBoardFile("1.board");
-  PrintBoard(board);
+  auto grid = Search(
+    ReadGridFile("stateMatrix.csv"), vector<int> {0, 0}, vector<int> {4, 5});
+
+  if(not grid.empty())
+    PrintMap(grid);
 }
