@@ -30,9 +30,11 @@ void PrintVectorOfVectors(vector<vector<int>> v) {
 string NodeStateAsString(State state) {
   switch(state) {
     case State::closed:   return " closed  ";
+    case State::finish:   return " finish  ";
     case State::obstacle: return " obstacle";
     case State::open:     return " open    ";
     case State::path:     return " path    ";
+    case State::start:    return " start   ";
     default:              return " error   ";
   }
 }
@@ -138,7 +140,8 @@ void TestTrivialSearch() {
   cout << "Test trivial search: ";
   auto gridState0 = ReadGridFile("stateMatrix.csv");
   auto gridState1 = Search(gridState0, vector<int> {4, 5}, vector<int> {4, 5});
-  gridState0[4][5] = State::path; // expected state after Search
+  gridState0[0][0] = State::start;  // expected state after Search
+  gridState0[4][5] = State::finish; // expected state after Search
   if (gridState1 != gridState0) {
     cout << "failed" << "\n";
     cout << "Search(board, {4,5}, {4,5})" << "\n";
@@ -163,7 +166,7 @@ void TestIsOpenNode() {
                             {State::closed, State::obstacle, State::open, State::open, State::open, State::open},
                             {State::closed, State::closed, State::open, State::open, State::obstacle, State::open}};
 
-  if (IsOpenNode(0, 0, grid)) { // node exists but is not open
+  if (IsOpenNode(0, 0, grid)) { // node in grid but is not open
     cout << "failed" << "\n";
     cout << "\n" << "Test grid is: " << "\n";
     PrintVectorOfVectors(grid);
@@ -175,7 +178,7 @@ void TestIsOpenNode() {
     PrintVectorOfVectors(grid);
     cout << "Cell checked: (4, 2)" << "\n";
     cout << "\n";
-  } else if (IsOpenNode(10, 2, grid)) { // node does not exist
+  } else if (IsOpenNode(10, 2, grid)) { // node is not in grid
     cout << "failed" << "\n";
     cout << "\n" << "Test grid is: " << "\n";
     PrintVectorOfVectors(grid);
@@ -226,6 +229,43 @@ void TestExamineNeighbors() {
     cout << "\n";
   } else {
   	cout << "passed" << "\n";
+  }
+  cout << "----------------------------------------------------------" << "\n";
+  return;
+}
+
+void TestSearch() {
+  cout << "----------------------------------------------------------" << "\n";
+  cout << "Test search: ";
+  auto gridState0 = ReadGridFile("stateMatrix.csv");
+  auto gridState1 = Search(gridState0, vector<int> {0, 0}, vector<int> {4, 5});
+  // Expected grid state after Search
+  gridState0[0][0] = State::start;
+  gridState0[1][0] = State::path;
+  gridState0[2][0] = State::path;
+  gridState0[3][0] = State::path;
+  gridState0[4][0] = State::path;
+  gridState0[4][1] = State::path;
+  gridState0[4][2] = State::path;
+  gridState0[4][3] = State::path;
+  gridState0[3][3] = State::path;
+  gridState0[3][4] = State::path;
+  gridState0[3][5] = State::path;
+  gridState0[4][5] = State::finish;
+  gridState0[3][2] = State::closed;
+  gridState0[2][3] = State::closed;
+  gridState0[2][4] = State::closed;
+  gridState0[2][5] = State::closed;
+  if (gridState1 != gridState0) {
+    cout << "failed" << "\n";
+    cout << "Search(board, {4,5}, {4,5})" << "\n";
+    cout << "Solution board: " << "\n";
+    PrintVectorOfVectors(gridState0);
+    cout << "Your board: " << "\n";
+    PrintVectorOfVectors(gridState1);
+    cout << "\n";
+  } else {
+    cout << "passed" << "\n";
   }
   cout << "----------------------------------------------------------" << "\n";
   return;

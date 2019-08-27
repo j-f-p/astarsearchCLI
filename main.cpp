@@ -13,7 +13,7 @@ using std::vector;
 
 const int positionDeltas[4][2] {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
 
-enum class State {closed, obstacle, open, path};
+enum class State {closed, finish, obstacle, open, path, start};
 
 vector<State> ParseLine(string stringRow) {
   istringstream streamRow(stringRow);
@@ -109,8 +109,11 @@ vector<vector<State>> Search(
     y = removed[1];
     grid[x][y] = State::path;
 
-    if(x==goalPt[0] and y==goalPt[1])
+    if(x==goalPt[0] and y==goalPt[1]) {
+      grid[0][0] = State::start;
+      grid[x][y] = State::finish;
       return grid;
+    }
 
     ExamineNeighbors(removed, goalPt, testNodes, grid);
   }
@@ -121,8 +124,10 @@ vector<vector<State>> Search(
 
 string NodeString(State state) {
   switch(state) {
+    case State::finish: return "🏁   ";
     case State::obstacle: return "⛰️   ";
     case State::path: return "🚗   ";
+    case State::start: return "🚦   ";
     default: return "0   "; // State::open or State::closed
   }
 }
@@ -153,4 +158,5 @@ int main() {
   TestTrivialSearch();
   TestIsOpenNode();
   TestExamineNeighbors();
+  TestSearch();
 }
