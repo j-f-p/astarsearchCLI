@@ -11,7 +11,7 @@ using std::istringstream;
 using std::string;
 using std::vector;
 
-enum class State {kOpen, kObstacle, kClosed};
+enum class State {closed, obstacle, open, path};
 
 vector<State> ParseLine(string stringRow) {
   istringstream streamRow(stringRow);
@@ -20,10 +20,10 @@ vector<State> ParseLine(string stringRow) {
   vector<State> stateRow;
   while(streamRow >> n >> c and c==',') {
     if(n==0) {
-      stateRow.push_back(State::kOpen);
+      stateRow.push_back(State::open);
     }
     else {
-      stateRow.push_back(State::kObstacle);
+      stateRow.push_back(State::obstacle);
     }
   }
   return stateRow;
@@ -48,7 +48,7 @@ int Heuristic(int x1, int y1, int x2, int y2) {
 void AddToTestNodes(int x, int y, int g, int h, 
     vector<vector<int>> &testNodes, vector<vector<State>> &grid) {
   testNodes.push_back(vector<int> {x, y, g, h});
-  grid[x][y] = State::kClosed;
+  grid[x][y] = State::closed;
 }
 
 bool CompareDescendingF(const vector<int> node1, const vector<int> node2) {
@@ -75,10 +75,11 @@ vector<vector<State>> Search(
   return vector<vector<State>>{};
 }
 
-string CellString(State state) {
+string NodeString(State state) {
   switch(state) {
-    case State::kObstacle: return "⛰️   ";
-    default: return "0   ";
+    case State::obstacle: return "⛰️   ";
+    case State::path: return "🚗   ";
+    default: return "0   "; // State::open or State::closed
   }
 }
 
@@ -87,7 +88,7 @@ void PrintMap(vector<vector<State>> grid) {
   for(vector<State> row: grid) {
     cout << "\t";
     for(State tile: row)
-      cout << CellString(tile);
+      cout << NodeString(tile);
     cout << "\n";
   }
   cout << "\n";
