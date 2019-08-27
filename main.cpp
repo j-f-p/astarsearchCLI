@@ -50,6 +50,10 @@ void AddToTestNodes(int x, int y, int g, int h,
   grid[x][y] = State::kClosed;
 }
 
+bool Compare(const vector<int> node1, const vector<int> node2) {
+  return node1[2]+node1[3] > node2[2]+node2[3];
+}
+
 vector<vector<State>> Search(
     vector<vector<State>> grid, vector<int> start, vector<int> goal) {
 
@@ -95,4 +99,5 @@ int main() {
   
   TestHeuristic();
   TestAddToTestNodes();
+  TestCompare();
 }
