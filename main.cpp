@@ -1,3 +1,4 @@
+#include <cstdlib>
 #include <fstream>
 #include <iostream>
 #include <sstream>
@@ -39,6 +40,10 @@ vector<vector<State>> ReadGridFile(string path) {
   return grid;
 }
 
+int Heuristic(int x1, int y1, int x2, int y2) {
+  return abs(x2 - x1) + abs(y2 - y1);
+}
+
 vector<vector<State>> Search(
     vector<vector<State>> grid, vector<int> start, vector<int> goal) {
   cout << "No path found!\n";
@@ -63,10 +68,14 @@ void PrintMap(vector<vector<State>> grid) {
   cout << "\n";
 }
 
+#include "test.cpp"
+
 int main() {
   auto grid = Search(
     ReadGridFile("stateMatrix.csv"), vector<int> {0, 0}, vector<int> {4, 5});
 
   if(not grid.empty())
     PrintMap(grid);
+  
+  TestHeuristic();
 }
