@@ -137,7 +137,7 @@ void TestCompare() {
 
 void TestTrivialSearch() {
   cout << "----------------------------------------------------------" << "\n";
-  cout << "Test trivial search: ";
+  cout << "Trivial search test: ";
   auto gridState0 = ReadGridFile("stateMatrix.csv");
   auto gridState1 = Search(gridState0, vector<int> {4, 5}, vector<int> {4, 5});
   gridState0[0][0] = State::start;  // expected state after Search
@@ -236,7 +236,7 @@ void TestExamineNeighbors() {
 
 void TestSearch() {
   cout << "----------------------------------------------------------" << "\n";
-  cout << "Test search: ";
+  cout << "Search test: ";
   auto gridState0 = ReadGridFile("stateMatrix.csv");
   auto gridState1 = Search(gridState0, vector<int> {0, 0}, vector<int> {4, 5});
   // Expected grid state after Search

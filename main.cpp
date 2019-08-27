@@ -133,7 +133,7 @@ string NodeString(State state) {
 }
 
 void PrintMap(vector<vector<State>> grid) {
-  cout << "\nGrid" << "\n\n";
+  cout << "\nGrid with A* Search Path" << "\n\n";
   for(vector<State> row: grid) {
     cout << "\t";
     for(State tile: row)

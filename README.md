@@ -58,5 +58,45 @@ Main()
   PrintGrid(grid)
 ```
 
+## Environment
+This program was developed on Ubuntu 19.04. It was compiled with x86_64-linux-gnu-g++-8 (Ubuntu 8.3.0-6ubuntu1) 8.3.0 with its default language standard `std=gnu++14`, the GNU dialect of `std=c++14`.
+
+## Last Development Execution
+```bash
+$ c++ main.cpp
+$ ./a.out
+Grid with A* Search Path
+
+	🚦   ⛰️   0   0   0   0   
+	🚗   ⛰️   0   0   0   0   
+	🚗   ⛰️   0   0   0   0   
+	🚗   ⛰️   0   🚗   🚗   🚗   
+	🚗   🚗   🚗   🚗   ⛰️   🏁   
+
+----------------------------------------------------------
+Heuristic Function Test: passed
+----------------------------------------------------------
+----------------------------------------------------------
+AddToTestNodes Function Test: passed
+----------------------------------------------------------
+----------------------------------------------------------
+Compare Function Test: passed
+----------------------------------------------------------
+----------------------------------------------------------
+Test trivial search: passed
+----------------------------------------------------------
+----------------------------------------------------------
+IsOpenNode Function Test: passed
+----------------------------------------------------------
+----------------------------------------------------------
+ExamineNeighbors Function Test: passed
+----------------------------------------------------------
+----------------------------------------------------------
+Search test: passed
+----------------------------------------------------------
+
+
+```
+
 ## Reference
-This project and its design are taken from a Udacity introductory course on C++.
+This project follows closely that from a Udacity introductory course on C++.
