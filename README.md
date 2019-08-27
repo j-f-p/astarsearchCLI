@@ -15,6 +15,7 @@ ReadGrid()
 
 Define heuristic function hf(x1, y1, x2, y2):
   Compute the Manhattan distance between the two points (x1, y1) and (x2, y2).
+
 Note that a node data structure is the set of values {x, y, g, h} where:
   x and y are the coordinates of the node.
   g is the cost of the search to arrive at the node
@@ -43,7 +44,9 @@ Search(grid, (xs, ys), (xg, yg))
           Add neighbor node to list test.
           Set node state to closed.
 
-  While loop is exited when there are no more test nodes and goal node was not tested. In this case, report that a path connecting start and goal nodes could not be found and return an empty matrix.
+  While loop is exited when there are no more test nodes and goal node was not
+  tested. In this case, report that a path connecting start and goal nodes could
+  not be found and return an empty matrix.
 
 PrintGrid(grid)
   Print string mapping of grid.
