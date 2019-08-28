@@ -59,12 +59,23 @@ Main()
 ```
 
 ## Environment
-This program was developed on Ubuntu 19.04. It was compiled with x86_64-linux-gnu-g++-8 (Ubuntu 8.3.0-6ubuntu1) 8.3.0 with its default language standard `std=gnu++14`, the GNU dialect of `std=c++14`.
+This program was developed on Ubuntu 19.04. It was compiled with x86_64-linux-gnu-g++-8 (Ubuntu 8.3.0-6ubuntu1) 8.3.0 with `-std=c++17`, the 2017 ISO C++ standard plus amendments.
 
-## Last Development Execution
+## Execution
+The program reads a file, `stateMatrix.csv`, containing comma separated values of `1`s or `0`s. A `1` represents a barrier. A `0` represents an open node. The lines and columns of values represent the two dimensions of the rectangular grid.
 ```bash
-$ c++ main.cpp
+$ cat stateMatrix.csv
+0,1,0,0,0,0,
+0,1,0,0,0,0,
+0,1,0,0,0,0,
+0,1,0,0,0,0,
+0,0,0,0,1,0,
+```
+The start and goal node coordinates of the grid for the A* search algorithm are hardcoded in the program as arguments to the `Search` function. Below is the last development execution.
+```bash
+$ c++ -std=c++17 main.cpp
 $ ./a.out
+
 Grid with A* Search Path
 
 	🚦   ⛰️   0   0   0   0   
