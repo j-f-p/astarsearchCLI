@@ -1,5 +1,5 @@
 # A* Search CLI Program
-Objective: A project for learning the A* search algorithm and some core components of modern C++.
+Objective: This is a project for learning the A* search algorithm and some core components of modern C++.
 
 ## Description
 The project program is written in modern C++. It employs the A* search algorithm for finding the shortest route between two points on a 2D Cartesian grid. The program is executed through a command line interface (CLI) and produces output through the associated terminal's standard output.
