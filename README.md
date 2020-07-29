@@ -1,8 +1,8 @@
 # A* Search CLI Program
-Objective: This is a project for learning the A* search algorithm and some core components of C++ 2017.
+Objective: This project demonstrates the A* search algorithm and a set of introductory features of C++.
 
 ## Description
-The project is built with C++ compliant with the 2017 standard. It employs the A* search algorithm for finding the shortest route between two points on a square grid graph. The program is executed through a command line interface (CLI) and produces output through the associated terminal's standard output. The program was developed with test-driven development (TDD).
+This project implements, in C++, the A* search algorithm for finding the shortest route between two points on a square grid graph. The program is executed through a command line interface (CLI) and produces output through the associated terminal's standard output. The program was developed with test-driven development (TDD).
 
 ## Program Pseudocode
 ```
@@ -59,9 +59,9 @@ Main()
 ```
 
 ## Environment
-This program was developed on Ubuntu 19.04. It was compiled with x86_64-linux-gnu-g++-8 (Ubuntu 8.3.0-6ubuntu1) 8.3.0 with `-std=c++17`, the 2017 ISO C++ standard plus amendments.
+This program was developed on an Ubuntu 19.04 virtual machine. In this development, it was compiled with a GCC 8 C++ compiler with `-std=c++17`. Without changes, the program has since been shown to successfully compile with GCC 10 and LLVM 10 C++ compilers with `-std=c++20`, on an Ubuntu 20.04 virtual machine.
 
-## Execution
+## Sample Execution
 The program reads a file, `stateMatrix.csv`, containing comma separated values, each either being a `1` or a `0`. In this file, each value represents the initial state of a node of the graph. A `1` represents a barrier. A `0` represents an open node. The rows and columns of values represent the two dimensions of the grid graph. The zero-based ordering of these dimensions are node coordinates. For instance, row `4` and column `5` are the coordinates of the bottom-right node of the graph.
 ```bash
 $ cat stateMatrix.csv
@@ -73,7 +73,7 @@ $ cat stateMatrix.csv
 ```
 The start and goal node coordinates of the grid for the A* search algorithm are hardcoded in the program as arguments to the `Search` function. Then, the `Search` function further modifies the state matrix as it constructs the shortest route. Below is the last development execution. The main output involves an imperfect representation of the square grid graph due to nonuniform character spacing and an unmatched text line-height. Following the main output, is output from unit tests of the TDD process.
 ```bash
-$ c++ -std=c++17 main.cpp
+$ c++ -std=c++20 main.cpp
 $ ./a.out
 
 Grid with A* Search Path
