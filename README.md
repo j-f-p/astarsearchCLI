@@ -44,9 +44,9 @@ Search(grid, (xs, ys), (xg, yg))
           Add neighbor node to list test.
           Set node state to closed.
 
-  While loop is exited when there are no more test nodes and goal node was not
-  tested. In this case, report that a path connecting start and goal nodes could
-  not be found and return an empty matrix.
+  Arrive here when while loop is exited because list test is empty and the goal
+  node was not found. Thus, report that a path connecting start and goal nodes
+  could not be found and return an empty matrix.
 
 PrintGrid(grid)
   Print string mapping of grid.
